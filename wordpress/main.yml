@@ -1,0 +1,24 @@
+---
+- hosts: all
+  become: true
+  tasks:
+
+    - name: Import playbook variables
+      include_vars: vars/wordpress.yml
+
+    - name: Preparing system
+      include_tasks: tasks/prepare_system.yml
+
+    - name: Configuring firewall rules 
+      include_tasks: tasks/firewall_rules.yml
+
+    - name: Addressing software requirements 
+      include_tasks: tasks/install_packages.yml
+
+    - name: Configure MariaDB 
+      include_tasks: tasks/database-mariadb.yml
+
+
+
+
+# vim:sw=2:ts=2:et:

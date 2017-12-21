@@ -1,0 +1,6 @@
+---
+wordpress_dbname: wordpress_db
+wordpress_dbuser: wordpress_user
+wordpress_dbpwd: secret_123
+
+# vim:sw=2:ts=2:et:

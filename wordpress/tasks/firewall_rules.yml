@@ -1,0 +1,62 @@
+---
+- name: Install iptables-service
+  package:
+    name: iptables-services
+    state: latest
+
+- name: Disable Firewall-D # for now
+  service:
+    name: firewalld
+    state: stopped
+    enabled: no
+
+- name: Stop current firewall
+  service:
+    name: iptables
+    state: stopped
+
+- name: Allow related and established connections
+  iptables:
+    jump: ACCEPT
+    chain: INPUT
+    ctstate: ESTABLISHED,RELATED
+
+- name: Allow loopback traffic
+  iptables:
+    jump: ACCEPT
+    chain: INPUT
+    in_interface: lo
+
+- name: Allow Wordpress services
+  iptables:
+    jump: ACCEPT
+    chain: INPUT
+    protocol: tcp
+    ctstate: NEW
+    destination_port: "{{ item }}"
+  with_items:
+    - 22
+    - 80
+    - 443
+ 
+######### BOTTOM RULES - do change the order  ###################
+- name: Set policy to DROP
+  iptables:
+    chain: "{{ item }}"
+    table: filter
+    policy: DROP
+  with_items:
+    - INPUT
+    - FORWARD
+
+- name: Persist IPtables rules
+  command: service iptables save
+
+- name: Enable IPtables service
+  service:
+    name: iptables
+    state: started
+    enabled: yes
+
+
+# vim:sw=2:ts=2:et:

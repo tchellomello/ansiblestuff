@@ -1,0 +1,17 @@
+---
+- name: Update all packages
+  yum:
+    name: '*'
+    state: latest
+    update_cache: yes
+
+- name: Install recommended packages
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - net-tools
+    - vim-enhanced
+    - MySQL-python
+
+# vim:sw=2:ts=2:et:
