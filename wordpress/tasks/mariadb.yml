@@ -50,16 +50,4 @@
     dest: "{{ mysql_root_config_file }}"
   when: mysql_root_password.changed
 
-- name: Create wordpress database
-  mysql_db:
-    name: "{{ wordpress_dbname }}"
-    state: present
-
-- name: Create wordpress user
-  mysql_user:
-    name: "{{ wordpress_dbuser }}"
-    password: "{{ wordpress_dbpwd }}"
-    priv: '{{ wordpress_dbname }}.*:ALL'
-    state: present
-
 # vim:sw=2:ts=2:et:

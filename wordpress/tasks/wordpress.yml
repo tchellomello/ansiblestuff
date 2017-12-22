@@ -5,10 +5,66 @@
     return_content: true
   register: wordpress_tarball_md5sum
 
-- name: "Downloading WordPress tarball to {{ wordpress_tarball_tmpdir }}"
+- name: "Downloading WordPress tarball to {{ wordpress_tarball_path }}"
   get_url:
     url: "{{ wordpress_tarball_url }}"
-    dest: "{{ wordpress_tarball_tmpdir }}"
+    dest: "{{ wordpress_tarball_path }}"
     checksum: "md5:{{ wordpress_tarball_md5sum.content }}"
+
+- name: "Uncompressing WordPress on document_root {{ wordpress_document_root }}"
+  unarchive:
+    src: "{{ wordpress_tarball_path }}"
+    dest: "{{ wordpress_document_root }}"
+    creates: "{{ wordpress_document_root }}/wordpress/wp-settings.php"
+    remote_src: yes
+    group: root
+    owner: root
+
+- name: "Generating password dynamically for {{ wordpress_dbuser }}"
+  command: openssl rand -hex 16
+  args:
+    creates: "{{ wordpress_document_root }}/wordpress/wp-config.php"
+  register: wordpress_dbpwd
+
+- name: "Displaying {{ wordpress_dbuser }} database's password"
+  when: wordpress_dbpwd.changed
+  debug:
+    msg: "{{ wordpress_dbuser }} password is: {{ wordpress_dbpwd.stdout }}"
+
+- name: Create wordpress database
+  mysql_db:
+    name: "{{ wordpress_dbname }}"
+    state: present
+
+- name: Create wordpress database user
+  when: wordpress_dbpwd.changed
+  mysql_user:
+    name: "{{ wordpress_dbuser }}"
+    password: "{{ wordpress_dbpwd.stdout }}"
+    priv: '{{ wordpress_dbname }}.*:ALL'
+    state: present
+
+- name: Obtaining WordPress Authentication Unique Keys and Salts
+  when: wordpress_dbpwd.changed
+  uri:
+    url: "{{ wordpress_unique_salts_url }}"
+    return_content: true
+    creates: "{{ wordpress_document_root }}/wordpress/wp-config.php"
+  register: wordpress_unique_salts
+
+- name: Creating WordPress main config
+  when: wordpress_dbpwd.changed
+  template:
+    src: templates/wordpress/wp-config.php
+    dest: "{{ wordpress_document_root }}/wordpress/wp-config.php"
+
+- name: Allow Apache to write content
+  file:
+    path: "{{ wordpress_document_root }}/wordpress/wp-content"
+    state: directory
+    recurse: yes
+    mode: 0775
+    owner: apache
+    group: apache
 
 # vim:sw=2:ts=2:et:

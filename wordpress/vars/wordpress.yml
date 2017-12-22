@@ -3,11 +3,11 @@ mysql_root_config_file: /root/.my.cnf
 
 # wordpress variables
 wordpress_dbname: wordpress_db
-wordpress_dbuser: wordpress_user
-wordpress_dbpwd: secret_123
+wordpress_dbuser: wordpress_user #wordpress_dbpwd will be generated dynamically
 wordpress_document_root: /var/www/html
 
-wordpress_tarball_tmpdir: /tmp
+wordpress_unique_salts_url: https://api.wordpress.org/secret-key/1.1/salt/
+wordpress_tarball_path: "{{ wordpress_document_root }}/wordpress.tar.gz"
 wordpress_tarball_url: https://wordpress.org/latest.tar.gz
 wordpress_tarball_url_md5: "{{ wordpress_tarball_url }}.md5"
 

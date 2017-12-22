@@ -12,6 +12,7 @@
   with_items:
     - curl
     - net-tools
+    - tar
     - vim-enhanced
     - wget
 
