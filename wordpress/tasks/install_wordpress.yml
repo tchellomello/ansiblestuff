@@ -1,0 +1,10 @@
+---
+- name: Download WordPress tarball
+  unarchive:
+    src: "{{ wordpress_download_url }}"
+    dest: "{{ wordpress_document_root }}"
+    remote_src: yes
+    owner: root
+    group: root
+
+# vim:sw=2:ts=2:et:

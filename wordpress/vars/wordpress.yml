@@ -2,5 +2,7 @@
 wordpress_dbname: wordpress_db
 wordpress_dbuser: wordpress_user
 wordpress_dbpwd: secret_123
+wordpress_download_url: "https://wordpress.org/latest.tar.gz"
+wordpress_document_root: "/var/www/html"
 
 # vim:sw=2:ts=2:et:

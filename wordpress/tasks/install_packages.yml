@@ -7,7 +7,9 @@
     - httpd
     - mariadb-server
     - mod_ssl
+    - php
     - php-curl
+    - php-fpm
     - php-gd
     - php-mbstring
     - php-mysql

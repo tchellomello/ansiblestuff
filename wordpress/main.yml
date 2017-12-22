@@ -18,6 +18,9 @@
     - name: Configure MariaDB 
       include_tasks: tasks/database-mariadb.yml
 
+    - name: Install WordPress
+      include_tasks: tasks/install_wordpress.yml
+
 
 
 
