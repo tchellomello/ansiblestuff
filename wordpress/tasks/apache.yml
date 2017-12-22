@@ -1,14 +1,12 @@
 ---
-- name: Install Wordpress packages
+- name: Installing Apache and PHP packages
   package:
     name: "{{ item }}"
     state: latest
   with_items:
     - httpd
-    - mariadb-server
     - mod_ssl
     - php
-    - php-curl
     - php-fpm
     - php-gd
     - php-mbstring
@@ -16,13 +14,10 @@
     - php-xml
     - php-xmlrpc
 
-- name: Enable Wordpress services
+- name: Enable Apache service
   service:
-    name: "{{ item }}"
+    name: httpd
     state: started
     enabled: yes
-  with_items:
-    - httpd
-    - mariadb
 
 # vim:sw=2:ts=2:et:

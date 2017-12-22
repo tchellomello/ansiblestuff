@@ -1,0 +1,65 @@
+---
+- name: Install MariaDB package
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - mariadb-server
+    - MySQL-python
+
+- name: Start MariaDB service and enable it on-boot
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+
+- name: Generates MariaDB root password dynamically
+  command: openssl rand -hex 16
+  args:
+    # only runs when path does not exist
+    # if runs mysql_root_password.changed will be True
+    creates: "{{ mysql_root_config_file }}"
+  register: mysql_root_password
+
+- name: Remove anonymous users
+  mysql_user:
+    name: ""
+    state: absent
+  when: mysql_root_password.changed
+
+- name: Remove test database
+  mysql_db:
+    name: test
+    state: absent
+  when: mysql_root_password.changed
+
+- name: Configure MariaDB root's password
+  mysql_user:
+    name: root
+    password: "{{ mysql_root_password.stdout }}"
+  when: mysql_root_password.changed
+
+- name: Display MariaDB root's password
+  debug:
+    msg: "MariaDB password is: {{ mysql_root_password.stdout }}"
+  when: mysql_root_password.changed # only executes if a new password has been created
+
+- name: "Create {{ mysql_root_config_file }}"
+  template:
+    src: templates/mariadb/my.cnf
+    dest: "{{ mysql_root_config_file }}"
+  when: mysql_root_password.changed
+
+- name: Create wordpress database
+  mysql_db:
+    name: "{{ wordpress_dbname }}"
+    state: present
+
+- name: Create wordpress user
+  mysql_user:
+    name: "{{ wordpress_dbuser }}"
+    password: "{{ wordpress_dbpwd }}"
+    priv: '{{ wordpress_dbname }}.*:ALL'
+    state: present
+
+# vim:sw=2:ts=2:et:

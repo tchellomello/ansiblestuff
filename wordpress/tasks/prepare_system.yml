@@ -10,8 +10,9 @@
     name: "{{ item }}"
     state: latest
   with_items:
+    - curl
     - net-tools
     - vim-enhanced
-    - MySQL-python
+    - wget
 
 # vim:sw=2:ts=2:et:

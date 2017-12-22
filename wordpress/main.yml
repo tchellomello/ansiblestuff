@@ -10,16 +10,22 @@
       include_tasks: tasks/prepare_system.yml
 
     - name: Configuring firewall rules 
-      include_tasks: tasks/firewall_rules.yml
-
-    - name: Addressing software requirements 
-      include_tasks: tasks/install_packages.yml
+      include_tasks: tasks/firewall.yml
 
     - name: Configure MariaDB 
-      include_tasks: tasks/database-mariadb.yml
+      include_tasks: tasks/mariadb.yml
 
-    - name: Install WordPress
-      include_tasks: tasks/install_wordpress.yml
+    - name: Configure Apache
+      include_tasks: tasks/apache.yml
+
+    - name: Configure WordPress
+      include_tasks: tasks/wordpress.yml
+
+  handlers:
+    - name: restart_apache
+      service:
+        name: httpd
+        state: restarted
 
 
 

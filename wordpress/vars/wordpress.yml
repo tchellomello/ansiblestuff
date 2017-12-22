@@ -1,8 +1,14 @@
 ---
+mysql_root_config_file: /root/.my.cnf
+
+# wordpress variables
 wordpress_dbname: wordpress_db
 wordpress_dbuser: wordpress_user
 wordpress_dbpwd: secret_123
-wordpress_download_url: "https://wordpress.org/latest.tar.gz"
-wordpress_document_root: "/var/www/html"
+wordpress_document_root: /var/www/html
+
+wordpress_tarball_tmpdir: /tmp
+wordpress_tarball_url: https://wordpress.org/latest.tar.gz
+wordpress_tarball_url_md5: "{{ wordpress_tarball_url }}.md5"
 
 # vim:sw=2:ts=2:et:
