@@ -1,11 +1,10 @@
 ---
-- name: Installing Apache and PHP packages
+# tasks file for tchellomello.php
+- name: Installing PHP packages
   package:
     name: "{{ item }}"
     state: latest
   with_items:
-    - httpd
-    - mod_ssl
     - php
     - php-fpm
     - php-gd
@@ -13,11 +12,7 @@
     - php-mysql
     - php-xml
     - php-xmlrpc
+  notify: restart_apache
 
-- name: Enable Apache service
-  service:
-    name: httpd
-    state: started
-    enabled: yes
 
 # vim:sw=2:ts=2:et:

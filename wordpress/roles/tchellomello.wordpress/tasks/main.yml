@@ -1,4 +1,6 @@
 ---
+# tasks file for tchellomello.wordpress
+
 - name: Obtaining WordPress tarball MD5
   uri:
     url: "{{ wordpress_tarball_url_md5 }}"
@@ -55,7 +57,7 @@
 - name: Creating WordPress main config
   when: wordpress_dbpwd.changed
   template:
-    src: templates/wordpress/wp-config.php
+    src: templates/wp-config.php
     dest: "{{ wordpress_document_root }}/wordpress/wp-config.php"
 
 - name: Allow Apache to write content

@@ -1,0 +1,6 @@
+---
+# defaults file for tchellomello.mariadb
+
+mysql_root_config_file: /root/.my.cnf
+
+# vim:sw=2:ts=2:et:

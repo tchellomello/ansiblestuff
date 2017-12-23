@@ -1,4 +1,6 @@
 ---
+# tasks file for tchellomello.mariadb
+
 - name: Install MariaDB package
   package:
     name: "{{ item }}"
@@ -46,7 +48,7 @@
 
 - name: "Create {{ mysql_root_config_file }}"
   template:
-    src: templates/mariadb/my.cnf
+    src: templates/my.cnf
     dest: "{{ mysql_root_config_file }}"
   when: mysql_root_password.changed
 
