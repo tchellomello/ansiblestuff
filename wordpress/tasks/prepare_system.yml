@@ -13,7 +13,6 @@
     - curl
     - net-tools
     - tar
-    - vim-enhanced
     - wget
 
 # vim:sw=2:ts=2:et:
