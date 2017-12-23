@@ -13,5 +13,14 @@ yum install qemu libvirt libvirt-devel ruby-devel \
             gcc qemu-kvm  libxslt-devel libxml2-devel \
             libguestfs-tools-c ruby-devel gcc
 
+systemctl start libvirtd
+
 vagrant plugin install vagrant-libvirt vagrant-dns
+```
+
+### Running an Ansible playbook
+
+```
+cd wordpress
+vagrant up
 ```
