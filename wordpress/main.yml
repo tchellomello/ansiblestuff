@@ -1,33 +1,8 @@
 ---
 - hosts: all
   become: true
-  tasks:
 
-    - name: Import playbook variables
-      include_vars: vars/wordpress.yml
-
-    - name: Preparing system
-      include_tasks: tasks/prepare_system.yml
-
-    - name: Configuring firewall rules 
-      include_tasks: tasks/firewall.yml
-
-    - name: Configure MariaDB 
-      include_tasks: tasks/mariadb.yml
-
-    - name: Configure Apache
-      include_tasks: tasks/apache.yml
-
-    - name: Configure WordPress
-      include_tasks: tasks/wordpress.yml
-
-  handlers:
-    - name: restart_apache
-      service:
-        name: httpd
-        state: restarted
-
-
-
+  roles:
+    - tchellomello.wordpress
 
 # vim:sw=2:ts=2:et:

@@ -1,0 +1,18 @@
+---
+# tasks file for tchellomello.apache
+#
+- name: Installing Apache
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - httpd
+    - mod_ssl
+
+- name: Enable Apache service
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+
+# vim:sw=2:ts=2:et:

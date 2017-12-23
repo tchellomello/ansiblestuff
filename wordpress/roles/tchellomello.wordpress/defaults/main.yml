@@ -1,9 +1,9 @@
 ---
-mysql_root_config_file: /root/.my.cnf
+# defaults file for tchellomello.wordpress
 
-# wordpress variables
 wordpress_dbname: wordpress_db
-wordpress_dbuser: wordpress_user #wordpress_dbpwd will be generated dynamically
+wordpress_dbuser: wordpress_user
+#wordpress_dbpwd will be generated dynamically
 wordpress_document_root: /var/www/html
 
 wordpress_unique_salts_url: https://api.wordpress.org/secret-key/1.1/salt/
