@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: true
+  tasks:
+
+    - name: Preparing system
+      include_tasks: tasks/prepare_system.yml
+
+    - name: Configure Nginx
+      include_tasks: tasks/nginx.yml
+
+# vim:sw=2:ts=2:et:

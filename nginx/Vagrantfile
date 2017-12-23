@@ -1,0 +1,25 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  # base image
+  config.vm.box = "centos/7"
+
+  # vagrant-dns plugin
+  config.vm.hostname = "nginx.ansible.stuff"
+
+  # libvirt
+  config.vm.provider :libvirt do |domain|
+    domain.driver = "kvm"
+    domain.memory = "1024"
+    domain.cpus = "2"
+    domain.random :model => 'random'
+  end
+
+  # ansible stuff
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = 'main.yml'
+  end
+
+end

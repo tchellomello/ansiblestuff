@@ -1,0 +1,29 @@
+---
+- name: Add EPEL repository
+  yum:
+    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    state: present
+
+- name: Update all packages
+  yum:
+    name: '*'
+    state: latest
+    update_cache: yes
+  tags:
+    - docker
+    - vagrant
+
+- name: Install recommended packages
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - curl
+    - net-tools
+    - tar
+    - wget
+  tags:
+    - docker
+    - vagrant
+
+# vim:sw=2:ts=2:et:
