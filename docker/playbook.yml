@@ -1,0 +1,12 @@
+---
+- hosts: all
+
+  tasks:
+    - name: Create Nginx
+      docker_container:
+        name: nginx_by_ansible
+        image: nginx:latest
+        state: started
+        env:
+          TEST_ENV: 1234
+
